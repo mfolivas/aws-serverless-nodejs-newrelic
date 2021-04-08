@@ -1,0 +1,22 @@
+{
+  "name": "aws-serverless-nodejs-newrelic",
+  "version": "1.0.0",
+  "description": "Centralized logs, traces, and metrics fro. NewRelic",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mfolivas/aws-serverless-nodejs-newrelic.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mfolivas/aws-serverless-nodejs-newrelic/issues"
+  },
+  "homepage": "https://github.com/mfolivas/aws-serverless-nodejs-newrelic#readme",
+  "dependencies": {
+    "newrelic": "^7.3.0"
+  }
+}
