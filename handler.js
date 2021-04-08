@@ -1,4 +1,6 @@
-module.export.hello = async (event) => {
+const newrelic = require('newrelic')
+
+module.exports.hello = async (event) => {
   const startedTime = new Date()
   console.log('Started the invocation of hello')
   await sleep()
@@ -6,10 +8,11 @@ module.export.hello = async (event) => {
   
   if (responseNumber > 40) {
     console.error('The response number is greater than forty', responseNumber)
+    sendMetrics(responseNumber, startedTime, false)
     throw new Error('The response number is not valid', responseNumber)
   }
   console.log('Valid response number', responseNumber)
-  console.log('Total time in ms', new Date() - startedTime)
+  sendMetrics(responseNumber, startedTime, true)
   return {
     statusCode: 200,
     body: JSON.stringify(
@@ -36,4 +39,9 @@ const generateANumberFromOneToFifty = () => {
 const sleep = (ms = generateNumber(1, 4000)) => {
   console.log('Sleeping for a total of', ms, 'milliseconds')
   return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+const sendMetrics = (value, startedTime, wasSuccessful = true) => {
+  newrelic.recordCustomEvent('response.amount', value, `wasSuccessful:${wasSuccessful}`, `stage:${process.env.stage}`)
+  newrelic.recordCustomEvent('response.latency', new Date() - startedTime, `wasSuccessful:${wasSuccessful}`, `stage:${process.env.stage}`)
 }
